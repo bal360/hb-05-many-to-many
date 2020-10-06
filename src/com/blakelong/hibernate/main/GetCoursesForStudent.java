@@ -1,5 +1,56 @@
 package com.blakelong.hibernate.main;
 
-public class GetCoursesForStudent {
+import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.blakelong.hibernate.entity.Course;
+import com.blakelong.hibernate.entity.Instructor;
+import com.blakelong.hibernate.entity.InstructorDetail;
+import com.blakelong.hibernate.entity.Review;
+import com.blakelong.hibernate.entity.Student;
+
+public class GetCoursesForStudent {
+	
+	public static void main(String[] args) {
+		
+		// create factory
+		SessionFactory factory = new Configuration()
+								.configure("hibernate.cfg.xml")
+								.addAnnotatedClass(Instructor.class)
+								.addAnnotatedClass(InstructorDetail.class)
+								.addAnnotatedClass(Course.class)
+								.addAnnotatedClass(Review.class)
+								.addAnnotatedClass(Student.class)
+								.buildSessionFactory();
+		// create session
+		Session session = factory.getCurrentSession();
+		
+		try {
+			// begin transaction
+			session.beginTransaction();
+			
+			// create id and get student
+			int id = 1;
+			Student student = session.get(Student.class, id);
+			
+			// print out courses for student
+			List<Course> courses = student.getCourses();
+			for (Course course : courses) {
+				System.out.println("\n");
+				System.out.println("Course: " + course.getTitle());
+			}
+			System.out.println("\n");
+			
+			// commit transaction
+			session.getTransaction().commit();
+			
+		} finally {
+			session.close();
+			
+			factory.close();
+		}
+	}
 }
