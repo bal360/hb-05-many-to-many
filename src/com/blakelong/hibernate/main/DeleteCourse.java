@@ -1,7 +1,5 @@
 package com.blakelong.hibernate.main;
 
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -12,8 +10,8 @@ import com.blakelong.hibernate.entity.InstructorDetail;
 import com.blakelong.hibernate.entity.Review;
 import com.blakelong.hibernate.entity.Student;
 
-public class GetCoursesForStudent {
-	
+public class DeleteCourse {
+
 	public static void main(String[] args) {
 		
 		// create factory
@@ -32,20 +30,20 @@ public class GetCoursesForStudent {
 			// begin transaction
 			session.beginTransaction();
 			
-			// create id and get student
-			int id = 1;
-			Student student = session.get(Student.class, id);
+			// create id and get course
+			int id = 11;
 			
-			// print out courses for student
-			List<Course> courses = student.getCourses();
-			System.out.println("\n");
-			for (Course course : courses) {
-				System.out.println("Course: " + course.getTitle());
-			}
-			System.out.println("\n");
+			Course course = session.get(Course.class, id);
+			
+			// delete course
+			session.delete(course);
+			
+			// confirm students are not deleted
 			
 			// commit transaction
 			session.getTransaction().commit();
+			
+			System.out.println("Done");
 			
 		} finally {
 			session.close();
@@ -53,4 +51,5 @@ public class GetCoursesForStudent {
 			factory.close();
 		}
 	}
+
 }

@@ -12,7 +12,7 @@ import com.blakelong.hibernate.entity.InstructorDetail;
 import com.blakelong.hibernate.entity.Review;
 import com.blakelong.hibernate.entity.Student;
 
-public class GetCoursesForStudent {
+public class DeleteStudent {
 	
 	public static void main(String[] args) {
 		
@@ -33,7 +33,7 @@ public class GetCoursesForStudent {
 			session.beginTransaction();
 			
 			// create id and get student
-			int id = 1;
+			int id = 4;
 			Student student = session.get(Student.class, id);
 			
 			// print out courses for student
@@ -43,6 +43,9 @@ public class GetCoursesForStudent {
 				System.out.println("Course: " + course.getTitle());
 			}
 			System.out.println("\n");
+			
+			// delete student
+			session.delete(student);
 			
 			// commit transaction
 			session.getTransaction().commit();
